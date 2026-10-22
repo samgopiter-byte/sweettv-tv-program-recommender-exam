@@ -23,7 +23,7 @@ is attributed to the student before that. The report's section "What I personall
 |---|---|---|---|---|
 | S1 | Counts the rows of the four raw files (PowerShell) | 5,821,987 / 1,074,235 / 1,074,394 / 1,295,378 | pending | |
 | S2 | Computes the md5 of `submission_v6_ensemble.csv` and compares it with the log | `0E5DE6ECAB6CF6433EE7E6516A4C3440` | **confirmed 2026-10-22** | `Get-FileHash -Algorithm MD5` on `submissions\submission_v6_ensemble.csv`: `0E5DE6ECAB6CF6433EE7E6516A4C3440`, equal to the md5 recorded in `submissions/SUBMISSIONS.md` at submission time |
-| S3 | Opens the file: 1,260 rows, five distinct ids in a row, looks one id up in the test schedule | see `MANUAL_CHECKS.md` | pending | |
+| S3 | Opens the file: 1,260 rows, five distinct ids in a row, looks one id up in the test schedule | see `MANUAL_CHECKS.md` | **partly confirmed 2026-10-22** (row count `1260` still to be reported by the student) | First data row: user 8377619604347126107 -> `2400480 2400508 240081 20088 12002896`; 5 ids, 5 distinct. Lookup of programme 2400480 in `export_arh_31-42-final.csv`: rows `27.07.2020 07:00:00`, `08:00:00`, `09:00:00` (title ТСН., length 600 s), i.e. in the test window |
 | S4 | Screen time of one airing from raw view rows (hand arithmetic) | `MANUAL_CHECKS_data.md`, check 1 | pending | |
 | S5 | Truth of one user: counts committed airings per programme, picks the top five, finds the tie | check 2 | pending | |
 | S6 | Expected committed airings of one programme from the slot habit (hand arithmetic) | check 3 | pending | |
