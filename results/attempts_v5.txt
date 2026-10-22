@@ -1,0 +1,18 @@
+data loaded in 30s; features 98 (old 47, used 94); users 1260
+ref pop_rel                          {'val12': 0.2858, 'val': 0.2496, 'val2': 0.2726, 'val3': 0.2519, 'val5': 0.2739} mean 0.2668
+ref hab_hs_p_rel                     {'val12': 0.3848, 'val': 0.362, 'val2': 0.3813, 'val3': 0.36, 'val5': 0.392} mean 0.376
+ref hab_hs_rel                       {'val12': 0.3843, 'val': 0.3608, 'val2': 0.381, 'val3': 0.3619, 'val5': 0.3895} mean 0.3755
+ref hs_conv_rel                      {'val12': 0.3755, 'val': 0.3459, 'val2': 0.3708, 'val3': 0.348, 'val5': 0.3818} mean 0.3644
+ref hs_cnt56_rel                     {'val12': 0.3641, 'val': 0.3542, 'val2': 0.3648, 'val3': 0.3463, 'val5': 0.3675} mean 0.3594
+A1 old features + rank_bin           {'val12': 0.423, 'val': 0.3881, 'val2': 0.4108, 'val3': 0.3823, 'val5': 0.4231} mean 0.4055 (56s)
+A2 all features + rank_bin           {'val12': 0.432, 'val': 0.3965, 'val2': 0.416, 'val3': 0.3919, 'val5': 0.4306} mean 0.4134 (62s)
+A3 all features + poisson            {'val12': 0.4236, 'val': 0.3919, 'val2': 0.4119, 'val3': 0.3892, 'val5': 0.4222} mean 0.4078 (71s)
+A4 all features + rank_soft          {'val12': 0.4296, 'val': 0.3972, 'val2': 0.4146, 'val3': 0.3932, 'val5': 0.4298} mean 0.4129 (62s)
+A5 ensemble of A2+A3+A4              {'val12': 0.4308, 'val': 0.3975, 'val2': 0.4168, 'val3': 0.3928, 'val5': 0.431} mean 0.4138
+
+== transfer protocol (unseen fold, user-disjoint), evaluation folds val12, val, val2 ==
+A1 old features + rank_bin           {'val12': 0.4204, 'val': 0.3852, 'val2': 0.4093} mean 0.4049
+A2 all features + rank_bin           {'val12': 0.4297, 'val': 0.397, 'val2': 0.4118} mean 0.4128
+A3 all features + poisson            {'val12': 0.4213, 'val': 0.3913, 'val2': 0.4129} mean 0.4085
+A4 all features + rank_soft          {'val12': 0.4298, 'val': 0.3963, 'val2': 0.4149} mean 0.4136
+A5 ensemble of A2+A3+A4              {'val12': 0.4282, 'val': 0.3976, 'val2': 0.4153} mean 0.4137

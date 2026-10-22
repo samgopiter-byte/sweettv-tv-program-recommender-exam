@@ -1,0 +1,14 @@
+features not in any family: []
+ALL features                                                           features 104  val12 0.4301  mean 0.4125
+ALL minus course methods (ALS, AR, CBF, PPR)                           features  87  val12 0.4328  mean 0.4135
+ALL minus popularity (seconds and committed)                           features 100  val12 0.4325  mean 0.4137
+ALL minus committed counts / conversion                                features  81  val12 0.4300  mean 0.4127
+ALL minus slot habit (committed)                                       features  80  val12 0.4302  mean 0.4112
+ALL minus older seconds-based history/habit                            features  79  val12 0.4264  mean 0.4090
+ALL minus context (airtime, category, user level)                      features  93  val12 0.4309  mean 0.4126
+ONLY course methods (ALS, AR, CBF, PPR) (+ context)                    features  28  val12 0.4176  mean 0.3993
+ONLY popularity (seconds and committed) (+ context)                    features  15  val12 0.3478  mean 0.3278
+ONLY committed counts / conversion (+ context)                         features  34  val12 0.4154  mean 0.3992
+ONLY slot habit (committed) (+ context)                                features  35  val12 0.4210  mean 0.4058
+ONLY older seconds-based history/habit (+ context)                     features  36  val12 0.4201  mean 0.4032
+ONLY context (airtime, category, user level) (+ context)               features  11  val12 0.3456  mean 0.3261

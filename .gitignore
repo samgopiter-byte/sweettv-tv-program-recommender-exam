@@ -1,0 +1,23 @@
+# environments and caches
+.venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# competition data, derived tables and logs are not committed (competition rules; the scripts rebuild them)
+data/
+
+# secrets
+.kaggle/
+access_token
+kaggle.json
+*.token
+
+# scratch and third-party material
+quiz_pdf/
+template.ipynb
+make_template.py
+
+# temporary outputs of reproduce.ps1 and old setup notes
+submissions/reproduced_*.csv
+SETUP.md

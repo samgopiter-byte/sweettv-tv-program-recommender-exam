@@ -1,0 +1,10 @@
+# Python 3.14.5 (CPU only). Versions are the ones the reported numbers were produced with.
+numpy==2.5.4
+pandas==3.0.6
+scipy==1.18.1
+scikit-learn==1.9.1
+lightgbm==4.7.0
+implicit==0.7.3
+pyarrow==26.0.0
+# only for downloading the data / submitting from the command line
+kaggle==2.2.4

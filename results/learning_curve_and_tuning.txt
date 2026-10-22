@@ -1,0 +1,16 @@
+== learning curve (share of users used for training) ==
+50% of users                                   val12 0.4233  mean 0.4054  (4s)
+67% of users                                   val12 0.4237  mean 0.4056  (8s)
+80% of users                                   val12 0.4233  mean 0.4064  (14s)
+90% of users                                   val12 0.4236  mean 0.4059  (31s)
+== ranker hyper-parameters (80% of users) ==
+leaves 7 rounds 100 min_data 100               val12 0.4233  mean 0.4064  (14s)
+leaves 7 rounds 200 min_data 100               val12 0.4276  mean 0.4094  (21s)
+leaves 15 rounds 100 min_data 100              val12 0.4272  mean 0.4092  (15s)
+leaves 15 rounds 200 min_data 100              val12 0.4286  mean 0.4114  (23s)
+leaves 31 rounds 100 min_data 100              val12 0.4288  mean 0.4105  (16s)
+leaves 31 rounds 200 min_data 100              val12 0.4258  mean 0.4105  (26s)
+leaves 15 rounds 100 min_data 50               val12 0.4270  mean 0.4088  (14s)
+leaves 15 rounds 100 min_data 200              val12 0.4266  mean 0.4094  (14s)
+leaves 63 rounds 100 min_data 100              val12 0.4276  mean 0.4100  (18s)
+best: [(np.float64(0.41136679158892947), 15, 200, 100), (np.float64(0.41052771174939834), 31, 200, 100), (np.float64(0.410457964757165), 31, 100, 100)]
