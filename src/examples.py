@@ -49,6 +49,29 @@ def main():
     z = sum(at.zscore(p[MODE], D["rows"]) for p in preds)
     lists["Final hybrid (re-ranker)"] = rr.lists_from_scores(sp, M, fb, D["rows"], D["cols"], z)
 
+    # controlled changes for the PPR list (same 15 power iterations as in the pipeline): another damping, and the user's most
+    # committed programme removed from the seed
+    from ppr_convergence import graph
+    P, dangling, Xw = graph(X)
+
+    def ppr_top5(p0row, d):
+        r = p0row.copy()
+        for _ in range(15):
+            r = (1.0 - d) * p0row + d * (r @ P)
+        order = np.argsort(-r[M.pool_ix], kind="stable")[:K]
+        return [int(M.items[M.pool_ix[j]]) for j in order]
+
+    controlled = {}
+    for u in (heavy, light):
+        row = Xw[M.sel[pos[u]]].toarray().ravel()
+        base = ppr_top5(row / row.sum(), 0.85)
+        other_d = ppr_top5(row / row.sum(), 0.5)
+        top_item = int(np.argmax(np.asarray(X[M.sel[pos[u]]].todense()).ravel()))
+        row2 = row.copy()
+        row2[top_item] = 0.0
+        without_top = ppr_top5(row2 / row2.sum(), 0.85)
+        controlled[u] = dict(base=base, other_d=other_d, without_top=without_top, removed=int(M.items[top_item]))
+
     sched = sp.sched[sp.sched["tv_show_id"] != 0].drop_duplicates("tv_show_id").set_index("tv_show_id")
     title = lambda i: str(sched.loc[i, "tv_show_title"])[:44] if i in sched.index else "?"
     cat = lambda i: str(sched.loc[i, "tv_show_category"]) if i in sched.index else "?"
@@ -76,6 +99,12 @@ def main():
             ap = np.mean([ap_at_k(rec, s) for s in samples[u]])
             cells = "<br>".join(f"{k + 1}. {i}{'*' if i in truth_ids else ''} {title(i)} [{cat(i)}]" for k, i in enumerate(rec))
             out.append(f"| {name} | {cells} | {ap:.3f} |")
+        c = controlled[u]
+        ov = lambda a, b: len(set(a) & set(b))
+        out.append(f"\nControlled changes of the PPR list (5 programmes): damping 0.5 instead of 0.85 keeps {ov(c['base'], c['other_d'])} of 5; "
+                   f"removing the user's most committed programme ({c['removed']} {title(c['removed'])}) from the seed keeps {ov(c['base'], c['without_top'])} of 5 "
+                   f"(entering: {', '.join(f'{i} {title(i)}' for i in c['without_top'] if i not in c['base']) or 'none'}).\n")
+    out.append(f"\nOverlap of the two users' PPR lists (d = 0.85): {len(set(controlled[heavy]['base']) & set(controlled[light]['base']))} of 5.\n")
     (ROOT / "examples_two_users.md").write_text("\n".join(out), encoding="utf-8")
     print("\n".join(out)[:6000])
 

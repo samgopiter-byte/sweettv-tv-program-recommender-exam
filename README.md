@@ -84,6 +84,21 @@ powershell -ExecutionPolicy Bypass -File reproduce.ps1      # 15-25 minutes, pri
 
 The competition data is not included (competition rules). A Kaggle API token is not included either.
 
+## Verification
+
+* **Tests**: `python tests/test_pipeline.py` - 30 checks on tiny examples, including the two MAP@5 examples of the teacher's slides (0.9167 and 0.5333).
+* **From-scratch reproduction**: `reproduce.ps1` rebuilds the final file from the raw data in a separate folder and compares its md5 with the
+  submitted file; the run of 2026-10-22 gave an identical file in 9.5 minutes ([`results/reproduce_check.txt`](results/reproduce_check.txt)).
+* **PPR convergence, every cohort user** ([`results/ppr_convergence_*.md`](results/), `src/ppr_convergence.py`): residual = L1 distance between
+  successive iterates, converged = residual < 1e-6. The pipeline runs 15 power iterations. For the test window all 1,256 cohort users reach
+  the tolerance within 14 iterations (d = 0.85); for the 12-week fold 212 of 1,239 users are still above 1e-6 after 15 iterations (largest
+  residual 1.5e-5, all below 2e-8 after 30) while the replica MAP@5 is 0.3773 for any number of iterations from 10 to 100. Many programmes
+  have no co-view edge (5,510 of 7,537 in that fold), but no cohort user's seed sits on one, so returning that mass to the seed changes nothing.
+* **Cohorts** ([`results/cohorts.md`](results/cohorts.md)): for every fold the 1,260 template users split into four disjoint groups
+  (history yes/no x truth yes/no) that add up to 1,260.
+* **Who checked what**: [`VERIFICATION_LEDGER.md`](VERIFICATION_LEDGER.md) keeps the checks run by the agent apart from the ones the student
+  performs personally ([`MANUAL_CHECKS.md`](MANUAL_CHECKS.md), numbers in [`MANUAL_CHECKS_data.md`](MANUAL_CHECKS_data.md)).
+
 ## Limitations
 
 * The replica is a proxy: the host's tie-breaking is unknown, and the test has 20 weeks of history instead of the 6-12 weeks of the folds

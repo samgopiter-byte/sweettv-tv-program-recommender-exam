@@ -1,0 +1,9 @@
+Reproduction from the raw competition files with reproduce.ps1, run on 2026-10-22 on the author's laptop
+(Core i7-1260P, 15.6 GB RAM, Windows, Python 3.14.5, CPU only). Run by the agent (Claude Code), not by the student;
+the student can repeat it with the single command in the README.
+
+elapsed: 9.5 min
+MD5 of the rebuilt file   submissions\reproduced_ensemble.csv    : 0E5DE6ECAB6CF6433EE7E6516A4C3440
+MD5 of the submitted file submissions\submission_v6_ensemble.csv : 0E5DE6ECAB6CF6433EE7E6516A4C3440
+Verdict printed by the script: IDENTICAL: the rebuilt file equals the submitted file byte for byte
+(1260 rows; every list has 5 unique programme ids from the test-window pool)

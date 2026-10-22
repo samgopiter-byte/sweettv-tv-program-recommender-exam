@@ -36,38 +36,49 @@ def check_screen():
     nv = inter.groupby(["user_id", "channel_id", "tv_show_id", "prog_start_s"]).size().rename("nviews").reset_index()
     g = g.merge(nv, on=["user_id", "channel_id", "tv_show_id", "prog_start_s"])
     g = g[(g["nviews"] == 2) & (g["dur"].between(1500, 3600)) & g["user_id"].isin(test_users())]
-    g = g.assign(gap=(g["screen"] - 0.8).abs()).sort_values(["gap", "user_id", "prog_start_s"])
-    r = g.iloc[0]
-    u, ch, pid, start, dur = int(r["user_id"]), int(r["channel_id"]), int(r["tv_show_id"]), int(r["prog_start_s"]), int(r["dur"])
-    sch = pd.concat([pd.read_csv(RAWD / f, encoding="utf-8") for f in ("export_arh_11-20-final.csv", "export_arh_21-30-final.csv")])
-    sch = sch[(sch["channel_id"] == ch) & (sch["start_time"] == t(start)) & (sch["tv_show_id"] == pid)].iloc[0]
-    views = pd.read_csv(RAWD / "dataset11-30.csv", dtype={"user_id": "uint64"})
-    views = views[(views["user_id"] == u) & (views["vsetv_id"] == ch)]
-    views = views[(pd.to_datetime(views["stop_time"]) > pd.to_datetime(sch["start_time"], format="%d.%m.%Y %H:%M:%S")) &
-                  (pd.to_datetime(views["start_time"]) < pd.to_datetime(sch["start_time"], format="%d.%m.%Y %H:%M:%S") + pd.Timedelta(seconds=dur))]
-    say("## Check 1. Screen time of one airing (recompute by hand)\n")
+    sch_all = pd.concat([pd.read_csv(RAWD / f, encoding="utf-8") for f in ("export_arh_11-20-final.csv", "export_arh_21-30-final.csv")])
+    views_all = pd.read_csv(RAWD / "dataset11-30.csv", dtype={"user_id": "uint64"})
+    say("## Check 1. Screen time of two airings (recompute by hand)\n")
     say("Rule of the host (Kaggle Data page): screen time = time the user watched the airing / length of the airing; "
-        "only airings with screen time >= 0.8 count as 'committed'.\n")
-    say(f"**Airing** (from the raw schedule file): channel {ch} \"{sch['channel_title']}\", programme {pid} \"{sch['tv_show_title']}\", "
-        f"starts **{sch['start_time']}**, length **{dur} s** (so it ends {t(start + dur)}).\n")
-    say(f"**User** {u}. Views of this user on this channel that overlap the airing (raw rows of `dataset11-30.csv`):\n")
-    say("| # | start_time | stop_time | overlap with the airing, seconds (fill in) |\n|---|---|---|---|")
-    for i, v in enumerate(views.itertuples(), 1):
-        say(f"| {i} | {v.start_time} | {v.stop_time} | ____ |")
-    say("\nYour calculation: overlap = min(stop, airing end) - max(start, airing start) for each view; "
-        f"sum = ____ s; screen time = sum / {dur} = ____; committed (>= 0.8)? ____")
-    say(SEP + f"seconds {int(r['sec'])}, length {dur}, screen time {r['screen']:.4f}, committed: {bool(r['screen'] >= 0.8)}\n")
+        "only airings with screen time >= 0.8 count as 'committed'. Two examples, one clearly above and one clearly below the threshold.\n")
+    for label, target in (("A", 0.86), ("B", 0.74)):
+        row = g.assign(gap=(g["screen"] - target).abs()).sort_values(["gap", "user_id", "prog_start_s"]).iloc[0:1]
+        # read the values column by column: a row Series would turn the 64-bit user id into a float and corrupt it
+        u, ch, pid = int(row["user_id"].iloc[0]), int(row["channel_id"].iloc[0]), int(row["tv_show_id"].iloc[0])
+        start, dur, sec, screen = int(row["prog_start_s"].iloc[0]), int(row["dur"].iloc[0]), int(row["sec"].iloc[0]), float(row["screen"].iloc[0])
+        sch = sch_all[(sch_all["channel_id"] == ch) & (sch_all["start_time"] == t(start)) & (sch_all["tv_show_id"] == pid)].iloc[0]
+        a0 = pd.to_datetime(sch["start_time"], format="%d.%m.%Y %H:%M:%S")
+        views = views_all[(views_all["user_id"] == np.uint64(u)) & (views_all["vsetv_id"] == ch)]
+        views = views[(pd.to_datetime(views["stop_time"]) > a0) & (pd.to_datetime(views["start_time"]) < a0 + pd.Timedelta(seconds=dur))]
+        say(f"### Example {label}\n")
+        say(f"**Airing** (from the raw schedule file): channel {ch} \"{sch['channel_title']}\", programme {pid} \"{sch['tv_show_title']}\", "
+            f"starts **{sch['start_time']}**, length **{dur} s** (so it ends {t(start + dur)}).\n")
+        say(f"**User** {u}. Views of this user on this channel that overlap the airing (raw rows of `dataset11-30.csv`):\n")
+        say("| # | start_time | stop_time | overlap with the airing, seconds (fill in) |\n|---|---|---|---|")
+        for i, v in enumerate(views.itertuples(), 1):
+            say(f"| {i} | {v.start_time} | {v.stop_time} | ____ |")
+        say("\nYour calculation: overlap = min(stop, airing end) - max(start, airing start) for each view; "
+            f"sum = ____ s; screen time = sum / {dur} = ____; committed (>= 0.8)? ____")
+        say(SEP + f"seconds {sec}, length {dur}, screen time {screen:.4f}, committed: {screen >= 0.8}\n")
 
 
 # ---------------------------------------------------------------------------------------------------------------
 def pick_truth_user(sp):
-    info = hs.tie_info(hs.qualifying_counts(sp.inter, sp.tgt_lo, sp.tgt_hi))
+    """Among the template users whose truth has a 2-way tie for the last place, the one with the fewest committed airings
+    in the window (at least 12), so that the counting by hand stays short."""
+    cnt = hs.qualifying_counts(sp.inter, sp.tgt_lo, sp.tgt_hi)
+    info = hs.tie_info(cnt)
+    total = cnt.groupby("user_id")["n"].sum()
+    tmpl = set(test_users().tolist())
+    best = None
     for u in sorted(info):
-        if u in set(test_users().tolist()):
-            sure, tied, need, det = info[u]
-            if len(tied) == 2 and need == 1 and len(sure) == 4:
-                return u, info[u]
-    raise RuntimeError("no user with a 2-way tie for one place")
+        sure, tied, need, det = info[u]
+        if u in tmpl and len(tied) == 2 and need == 1 and len(sure) == 4 and total[u] >= 12:
+            if best is None or total[u] < total[best]:
+                best = u
+    if best is None:
+        raise RuntimeError("no user with a 2-way tie for one place")
+    return best, info[best]
 
 
 def check_truth(sp):
@@ -124,12 +135,15 @@ def check_habit(sp, u):
     for r in hist.itertuples():
         c = cell(r.channel_id, r.start_s)
         Z[c] = Z.get(c, 0) + 1
-    best = None
-    for pid in cand:
-        rows = tgt[tgt["tv_show_id"] == pid]
-        if 3 <= len(rows) <= 6 and any(R.get(cell(r.channel_id, r.start_s), 0) > 0 for r in rows.itertuples()):
-            best = pid
-            break
+    # a programme with few airings in the window (so that the sum can be done by hand) for which the user's rate is positive;
+    # among those, the one with the largest expected count (ties: the smaller id)
+    counts = tgt.groupby("tv_show_id").size()
+    few = counts[(counts >= 4) & (counts <= 8)].index
+    best, best_val = None, 0.0
+    for pid, grp in tgt[tgt["tv_show_id"].isin(few)].groupby("tv_show_id"):
+        val = sum(R.get(cell(r.channel_id, r.start_s), 0) / (Z.get(cell(r.channel_id, r.start_s), 0) + 1.0) for r in grp.itertuples())
+        if val > best_val + 1e-12:
+            best, best_val = pid, val
     rows = tgt[tgt["tv_show_id"] == best].sort_values("start_s")
     title = str(rows["tv_show_title"].iloc[0])[:44]
     say(f"## Check 3. Expected committed airings of one programme from the slot habit (user {u}, programme {best} \"{title}\")\n")
@@ -172,7 +186,8 @@ def check_ap(sp):
         hits = len(set(lists[u]) & (set(sure) | set(tied)))
         if "plain" not in chosen and need == len(tied) and hits >= 3:
             chosen["plain"] = u
-        if "tie" not in chosen and need == 1 and len(tied) == 2 and len(set(lists[u]) & set(sure)) >= 2:
+        # the list must contain exactly one of the two tied programmes, otherwise both possible truths give the same AP
+        if "tie" not in chosen and need == 1 and len(tied) == 2 and len(set(lists[u]) & set(sure)) >= 2 and len(set(lists[u]) & set(tied)) == 1:
             chosen["tie"] = u
         if len(chosen) == 2:
             break
