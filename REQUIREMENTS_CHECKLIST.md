@@ -9,9 +9,9 @@ guidelines (guidelines). Status as of 2026-10-23. "report" = the PDF (built loca
 | 2 | At least two of CBF / association rules / MF / PPR, each evaluated individually on the same split, pool and protocol | md, slides, seminar | done | all four: `results/methods_table_5folds.txt` |
 | 3 | Popularity baseline as the reference | md, slides | done | same table |
 | 4 | The "core idea" of an advanced / combined approach must relate to the studied methods; combining and literature-based approaches are allowed | seminar | done in design, text open | hybrid of the four methods + behavioural signals; ablation `results/ablation_v6.txt`; the report must say so and cite literature (LambdaMART, repeat consumption, ...) |
-| 5 | Matching rule and threshold, handling of `tv_show_id = 0`, missing ids | md, slides | code done, report open | `src/build_interactions.py`, README |
+| 5 | Matching rule and threshold (normalisation justified against the observed duration distribution), handling of `tv_show_id = 0`, missing ids | md, slides | done | report section 3 ("Matching rule and threshold"); `results/screen_time_distribution.md` |
 | 6 | Own temporal validation inside weeks <= 30; models built from training data only; no future viewing | md, seminar | done | folds in `src/common.py`; window-clipping tests |
-| 7 | Candidate pool, repeats, cold start stated explicitly and identical for all methods | md | code done, report open | README; `src/methods.py`, `src/rerank.py` |
+| 7 | Candidate pool, repeats, cold start stated explicitly and identical for all methods; how each method yields exactly five ids | md | done | report sections 3 ("From scores to five ids") and 4 (Setup) |
 | 8 | Exactly five unique programme ids per user | md | done | checks in `results/verification_numbers_v2.md` |
 | 9 | Document hyper-parameters, seeds, runtime, environment | md | done | README (environment, seeds); `results/runtime.md`, `src/benchmark.py`; report section 3 |
 | 10 | Hybrid: components, how weights were chosen, comparison with each component | md | done | `results/attempts_v6.txt`, `results/ablation_v6.txt` |

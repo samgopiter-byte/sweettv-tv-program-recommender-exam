@@ -96,6 +96,10 @@ The competition data is not included (competition rules). A Kaggle API token is 
   have no co-view edge (5,510 of 7,537 in that fold), but no cohort user's seed sits on one, so returning that mass to the seed changes nothing.
 * **Cohorts** ([`results/cohorts.md`](results/cohorts.md)): for every fold the 1,260 template users split into four disjoint groups
   (history yes/no x truth yes/no) that add up to 1,260.
+* **Screen-time distribution** ([`results/screen_time_distribution.md`](results/screen_time_distribution.md), `src/screen_time_stats.py`): of 3.01 M labelled
+  user-airings 38.2% have a screen time below 0.1 and 16.0% at least 0.95 (U-shaped, median airing 5,700 s); an absolute 300 s cut would call 69.0% of them
+  watched, 70.9% of those below 0.8 of the airing, while the host's 0.8 keeps 20.4%.
+* **Submission files** are stored byte for byte (`.gitattributes`: `submissions/*.csv -text`), so the md5 of `submission_v6_ensemble.csv` in the repository is the logged one (`0e5de6ec...`).
 * **Who checked what**: [`VERIFICATION_LEDGER.md`](VERIFICATION_LEDGER.md) keeps the checks run by the agent apart from the ones the student
   performs personally ([`MANUAL_CHECKS.md`](MANUAL_CHECKS.md), numbers in [`MANUAL_CHECKS_data.md`](MANUAL_CHECKS_data.md)).
 

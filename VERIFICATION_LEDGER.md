@@ -16,6 +16,8 @@ is attributed to the student before that. The report's section "What I personall
 | A6 | Cohort decomposition (disjoint cells adding up to 1,260 users) for every fold | see the file | `results/cohorts.md`, `src/cohorts.py` |
 | A7 | Paired bootstrap, shuffle canary, leak canary, seed sensitivity of the re-ranker | see the file | `results/verification_numbers_v2.md` |
 | A8 | Kaggle Submissions page: description shows the Russian name correctly; scores read from the API and the page text | matches `submissions/SUBMISSIONS.md` | log in the session |
+| A9 | Screen-time distribution of all labelled user-airings (justifies the fraction and the 0.8 threshold against an absolute-seconds cut) | 3.01 M user-airings; U-shaped; 0.8 keeps 20.4% | `results/screen_time_distribution.md`, `src/screen_time_stats.py` |
+| A10 | The public repository serves the final submission file with the logged md5 (found 2026-10-23: line endings had been normalised by git; fixed with `.gitattributes`) | md5 `0e5de6ec...` through the GitHub API | `gh api repos/.../contents/submissions/submission_v6_ensemble.csv` |
 
 ## B. Checks the student performs personally (numbers prepared by `src/manual_checks.py`, commands in `MANUAL_CHECKS.md`)
 
