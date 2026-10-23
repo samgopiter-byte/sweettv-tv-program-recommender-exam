@@ -15,3 +15,5 @@ Machine: Intel64 Family 6 Model 154 Stepping 3, GenuineIntel, Windows 11, Python
 | slot habit (committed), pooled profile | 1.6 |
 | committed conversion | 1.4 |
 | all features of one fold (13 scorers, candidates, 104 features) | 83.0 |
+| join of the view log to the schedule (`build_interactions.py`, 5.8 M views, separate run) | 61 |
+| final training + prediction of the submitted ensemble (`final3.py A5`, features cached, separate run; md5 of the output `0e5de6ec...`, identical to the submitted file) | 88 |
