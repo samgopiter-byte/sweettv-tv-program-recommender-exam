@@ -1,7 +1,7 @@
 # Exam requirements checklist
 
 Sources: `exam_quiz_AVITO.md` (md), the quiz slides (slides), the teacher's seminar of 2026-10-22 (seminar, transcript), the homework
-guidelines (guidelines). Status as of 2026-10-23. "report" = the PDF that is still to be written.
+guidelines (guidelines). Status as of 2026-10-23. "report" = the PDF (built locally, not stored in the public repository).
 
 | # | Requirement | Source | Status | Evidence / what is left |
 |---|---|---|---|---|
@@ -13,15 +13,15 @@ guidelines (guidelines). Status as of 2026-10-23. "report" = the PDF that is sti
 | 6 | Own temporal validation inside weeks <= 30; models built from training data only; no future viewing | md, seminar | done | folds in `src/common.py`; window-clipping tests |
 | 7 | Candidate pool, repeats, cold start stated explicitly and identical for all methods | md | code done, report open | README; `src/methods.py`, `src/rerank.py` |
 | 8 | Exactly five unique programme ids per user | md | done | checks in `results/verification_numbers_v2.md` |
-| 9 | Document hyper-parameters, seeds, runtime, environment | md | partly | README (environment, seeds in code); **runtime table still to be measured** |
+| 9 | Document hyper-parameters, seeds, runtime, environment | md | done | README (environment, seeds); `results/runtime.md`, `src/benchmark.py`; report section 3 |
 | 10 | Hybrid: components, how weights were chosen, comparison with each component | md | done | `results/attempts_v6.txt`, `results/ablation_v6.txt` |
-| 11 | Two users chosen by a rule and used for all methods: Top-5 with id, title, category, compared with the history | md, seminar | script ready, output open | `src/examples.py` -> `examples_two_users.md` (to be generated for the final model) |
-| 12 | Business analysis: which strategy for the platform and why; differences between methods; limitations; no A/B or revenue claims | md, seminar | open | report |
-| 13 | PDF contains the GitHub link (**and the repository is listed as a reference**), the Kaggle screenshot, method comparison, validation, business analysis | md, seminar | open | report; link https://github.com/samgopiter-byte/sweettv-tv-program-recommender-exam |
-| 14 | Kaggle: late submission, description with the Russian full name and the Kaggle name; mark the best submission as Selected | slides, seminar | submissions done, Selected open | `submissions/SUBMISSIONS.md`; Selected + screenshot at the end |
-| 15 | Screenshot of the Submissions page showing the best result; the teacher asks for the private score, md says public: show both columns; the name must be displayed correctly | slides, seminar, md | open | taken at the end |
+| 11 | Two users chosen by a rule and used for all methods: Top-5 with id, title, category, compared with the history | md, seminar | done | `examples_two_users.md` (final model), report Table 4 |
+| 12 | Business analysis: which strategy for the platform and why; differences between methods; limitations; no A/B or revenue claims | md, seminar | done | report section 5.1 |
+| 13 | PDF contains the GitHub link (**and the repository is listed as a reference**), the Kaggle screenshot, method comparison, validation, business analysis | md, seminar | done (the student checks the PDF) | report; link https://github.com/samgopiter-byte/sweettv-tv-program-recommender-exam |
+| 14 | Kaggle: late submission, description with the Russian full name and the Kaggle name; mark the best submission as Selected | slides, seminar | submissions done; "Selected" impossible | Kaggle disables selection after the deadline; best row #5 shown in the report; `submissions/SUBMISSIONS.md` |
+| 15 | Screenshot of the Submissions page showing the best result; the teacher asks for the private score, md says public: show both columns; the name must be displayed correctly | slides, seminar, md | done | report Figure 1 (Private and Public columns, details of #5 with the description); the student may replace it with a full-width screenshot of his own |
 | 16 | Repository: code, the final submission CSV (the one that gave the reported score), reproduction instructions | md, seminar | done | README, `reproduce.ps1`, `submissions/` |
-| 17 | Report in the homework format (IEEE-style sections, <= 5 pages excluding references, AI usage disclosure with "what I personally checked" and "what I trusted without verification") | guidelines, md | open | report |
+| 17 | Report in the homework format (IEEE-style sections, <= 5 pages excluding references, AI usage disclosure with "what I personally checked" and "what I trusted without verification") | guidelines, md | done (the student checks the PDF) | report |
 | 18 | "What I personally checked": a table of the report plus a calculation example taken from it so that a reader can reproduce it; not everything has to be checked by hand | seminar | in progress | `MANUAL_CHECKS.md`, `VERIFICATION_LEDGER.md` (S2 confirmed, S3 partly) |
 | 19 | Gate 0: no invalid or invented references / DOIs, no fabricated numbers, session export matches the work | seminar, md, guidelines | open | every reference opened and compared; numbers taken from `results/`; the session is one file |
 | 20 | Language of the implementation is free; no A/B test required | seminar | done | Python |

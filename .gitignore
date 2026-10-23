@@ -23,3 +23,5 @@ submissions/reproduced_*.csv
 SETUP.md
 *.pkl
 catboost_info/
+deliverables/
+report/

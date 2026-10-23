@@ -40,5 +40,7 @@ Notes
   about five a day; the Kaggle counter showed 96 of 100 left after four). It is the version that the repository code
   reproduces (#4 was produced by an earlier state of the code), so it is the designated final submission unless a later one
   beats it. The gain over #4 (+0.0043 public, +0.0048 private) matches the replica's prediction (+0.005).
-* Designated final submission: currently #5 (highest public and private), to be marked "Selected" on the Submissions tab before
-  the screenshot, which must show both the Public and the Private column. Further attempts planned for 2026-10-23.
+* Final submission: #5 (highest public and private score). Kaggle no longer allows marking a submission as "Selected" after the
+  deadline ("Submission selection is disabled after the deadline"), so no submission is marked; with 0 of 2 selected Kaggle
+  auto-selects the best by the public score, which is #5 (a later one would have to beat it). No further submissions were made on
+  2026-10-23; the screenshots of the Submissions page (both Private and Public columns) and of the details of #5 are in the report.
