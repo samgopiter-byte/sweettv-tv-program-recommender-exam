@@ -22,3 +22,4 @@ make_template.py
 submissions/reproduced_*.csv
 SETUP.md
 *.pkl
+catboost_info/
