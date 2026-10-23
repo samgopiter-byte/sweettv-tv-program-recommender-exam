@@ -21,3 +21,4 @@ make_template.py
 # temporary outputs of reproduce.ps1 and old setup notes
 submissions/reproduced_*.csv
 SETUP.md
+*.pkl
