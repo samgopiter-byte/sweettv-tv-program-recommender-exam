@@ -30,7 +30,7 @@ is attributed to the student before that. The report's section "What I personall
 | S7 | AP@5 by hand for two users (one without and one with a tie) | check 4 | **confirmed 2026-10-23; the student stated that he did the arithmetic himself** | User 181063287547536022: hits at ranks 1-4, AP@5 = 4/5 = 0.8000; user 3086774348345899441: AP@5 = 1.0000 or 0.8000 depending on the tie, expected 0.9000. Equal to the code |
 | S8 | Runs `reproduce.ps1` himself and compares the md5 | identical | pending | |
 | S9 | Compares the Kaggle Submissions page with `submissions/SUBMISSIONS.md` | equal | pending | |
-| S10 | Opens every reference of the report and compares author / year / venue / DOI | to be done after the draft | pending | |
+| S10 | Opens every reference of the report and compares author / year / venue / DOI | to be done after the draft | **marked 2026-10-23 on the student's instruction after the pages were opened in the built-in browser** | Reference [3] (paywalled chapter): year, series and pages verified by the agent from Crossref and the Springer book page, not by the student. IEEE Xplore and ACM block automated browsers (error 418, bot check), so the student opened those pages himself |
 
 Not established personally (and not claimed): every user's metric, all intermediate tables, the correctness of the libraries' internals
 (ALS, LightGBM), all-user convergence of PPR (that is an agent check, A5).
