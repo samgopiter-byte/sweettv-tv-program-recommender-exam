@@ -1,0 +1,2 @@
+# the submission files are stored byte for byte as they were uploaded to Kaggle (CRLF line endings), so their md5 stays the logged one
+submissions/*.csv -text
